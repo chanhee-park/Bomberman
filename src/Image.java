@@ -56,9 +56,9 @@ class Image {
         }
 
         item = applet.loadImage("./img/bomberman-items.png");
-        items = new PImage[6];
+        items = new PImage[3];
         for(int i = 0 ; i < 6 ; i++) {
-            items[i] = item.get( 24 * i , 0, 24, 24);
+            items[i] = item.get( 24 * i *2 , 0, 24, 24);
         }
 
     }

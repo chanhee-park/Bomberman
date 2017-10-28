@@ -1,6 +1,7 @@
 import processing.core.PApplet;
 
 public class Item {
+    Image img;
     Position position;
 
     enum Types {
@@ -9,7 +10,8 @@ public class Item {
 
     private Types type;
 
-    Item(Position p, Types t) {
+    Item(Position p, Types t, Image img) {
+        this.img = img;
         position = p;
         type = t;
     }
@@ -23,9 +25,9 @@ public class Item {
     }
 
     public void draw(PApplet applet){
-        if(this.type == Types.SPEED) applet.fill(155,0,0);
-        if(this.type == Types.POWER) applet.fill(0,155,0);
-        if(this.type == Types.NUMBER) applet.fill(0,0,155);
+        if(this.type == Types.SPEED) applet.image(img.items[2],position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
+        if(this.type == Types.POWER) applet.image(img.items[0],position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
+        if(this.type == Types.NUMBER) applet.image(img.items[1],position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
         applet.ellipse(position.getX()*40+10,position.getY()*40+10,25,25);
     }
 }
