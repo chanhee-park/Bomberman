@@ -12,6 +12,12 @@ public class BomberMan {
     private int numberOfBomb = 1;
     private boolean dead = false;
 
+    private boolean isLeftGo = false;
+    private boolean isRightGo = false;
+    private boolean isUpGo = false;
+    private boolean isDownGo = false;
+
+
     BomberMan(int x, int y, Image img) {
         this.position = new Position(x, y);
         this.img = img;
@@ -47,6 +53,46 @@ public class BomberMan {
     public void setNumberOfBomb(int numberOfBomb) {
         if (numberOfBomb >= 3) return;
         this.numberOfBomb = numberOfBomb;
+    }
+
+    public boolean isLeftGo() {
+        return isLeftGo;
+    }
+
+    public void setLeftGo(boolean leftGo) {
+        isLeftGo = leftGo;
+    }
+
+    public boolean isRightGo() {
+        return isRightGo;
+    }
+
+    public void setRightGo(boolean rightGo) {
+        setAllgoFalse();
+        isRightGo = rightGo;
+    }
+
+    public void setAllgoFalse() {
+        isRightGo = false;
+        isLeftGo = false;
+        isDownGo = false;
+        isUpGo = false;
+    }
+
+    public boolean isUpGo() {
+        return isUpGo;
+    }
+
+    public void setUpGo(boolean upGo) {
+        isUpGo = upGo;
+    }
+
+    public boolean isDownGo() {
+        return isDownGo;
+    }
+
+    public void setDownGo(boolean downGo) {
+        isDownGo = downGo;
     }
 
     public void goLeft(Block[][] map) {
@@ -86,10 +132,10 @@ public class BomberMan {
     }
 
     public boolean detectCollisionWithBlock(Block[][] map) {
-        int x1 = (int) (position.getX() + 0.1);
+        int x1 = (int) (position.getX() + Constants.PLAYER_EXTRA_X);
         int x2 = (int) (position.getX() + 0.6); // 사이즈 맨 밑에
-        int y1 = (int) (position.getY());
-        int y2 = (int) (position.getY() + 0.7);
+        int y1 = (int) (position.getY() + Constants.PLAYER_EXTRA_Y);
+        int y2 = (int) (position.getY() + 0.8);
 
         Block.Types brk = Block.Types.BREAKABLE;
         Block.Types unbrk = Block.Types.UNBREAKABLE;
@@ -117,19 +163,24 @@ public class BomberMan {
     }
 
     public void setState() {
-        state ++;
-        if(state > 4) {
+        state++;
+        if (state > 4) {
             state = 0;
         }
     }
 
 
-    public void draw(PApplet applet) {
-        tick ++;
-        if(applet.keyPressed){
+    public void draw(PApplet applet, Block[][] map) {
+        if (isLeftGo) goLeft(map);
+        if (isRightGo) goRight(map);
+        if (isUpGo) goUP(map);
+        if (isDownGo) goDown(map);
+
+        tick++;
+        if (applet.keyPressed) {
             setState();
-            applet.image(img.characterMovements[headMove + (state / 5)],position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
-        }else {
+            applet.image(img.characterMovements[headMove + (state / 5)], position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
+        } else {
             applet.image(img.characterStays[((tick / 10) % 3) + headStay], position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
         }
     }

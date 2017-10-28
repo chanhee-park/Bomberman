@@ -10,4 +10,7 @@ public class Constants {
     static int ABSENCE = 0;
     static int UNBREAKABLE = 1;
     static int BREAKABLE = 2;
+
+    static float PLAYER_EXTRA_X = 0.2f;
+    static float PLAYER_EXTRA_Y = 0.4f;
 }

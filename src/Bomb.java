@@ -11,13 +11,12 @@ public class Bomb {
 
     Bomb(Position position, int power, Image img) {
 
-        this.position = new Position((int) position.getX(), (int) position.getY());
+        this.position = new Position((int) (position.getX() + Constants.PLAYER_EXTRA_X), (int) (position.getY() + Constants.PLAYER_EXTRA_Y));
         this.img = img;
         if (power > 3) power = 3;
         this.power = power;
         this.makeTime = System.currentTimeMillis();
         this.exploded = false;
-        System.out.println("생성 : " + makeTime);
     }
 
     public Position getPosition() {
@@ -34,7 +33,6 @@ public class Bomb {
 
 
     public void explode() {
-        System.out.println("폭발!");
         this.exploded = true;
     }
 

@@ -34,30 +34,18 @@ public class Main extends PApplet {
         this.background(51, 102, 0);
         drawMap();
         drawPlayers();
-        if (keyPressed && p1 != null && p2 != null) {
-            if (keyCode == RIGHT) p1.goRight(map);
-            else if (keyCode == LEFT) p1.goLeft(map);
-            else if (keyCode == DOWN) p1.goDown(map);
-            else if (keyCode == UP) p1.goUP(map);
-
-            if (keyCode == 68) p2.goRight(map);
-            else if (keyCode == 65) p2.goLeft(map);
-            else if (keyCode == 83) p2.goDown(map);
-            else if (keyCode == 87) p2.goUP(map);
-
-            detectCollisionPlayerAndItem();
-        }
-
         drawBomb();
         drawItem();
+        detectCollisionPlayerAndItem();
     }
 
     private void detectCollisionPlayerAndItem() {
+        if (p1 == null || p2 == null) return;
         for (Item item : items) {
-            int p1x = (int) p1.getPosition().getX();
-            int p1y = (int) p1.getPosition().getY();
-            int p2x = (int) p1.getPosition().getX();
-            int p2y = (int) p1.getPosition().getY();
+            int p1x = (int) (p1.getPosition().getX() + Constants.PLAYER_EXTRA_X);
+            int p1y = (int) (p1.getPosition().getY() + Constants.PLAYER_EXTRA_Y);
+            int p2x = (int) (p2.getPosition().getX() + Constants.PLAYER_EXTRA_X);
+            int p2y = (int) (p2.getPosition().getY() + Constants.PLAYER_EXTRA_Y);
             int x = (int) item.getPosition().getX();
             int y = (int) item.getPosition().getY();
             if (p1x == x && p1y == y) {
@@ -75,8 +63,19 @@ public class Main extends PApplet {
 
     @Override
     public void keyPressed() {
+        if (p1 != null && p2 != null) {
+            if (keyCode == RIGHT) p1.setRightGo(true);
+            else if (keyCode == LEFT) p1.setLeftGo(true);
+            else if (keyCode == DOWN) p1.setDownGo(true);
+            else if (keyCode == UP) p1.setUpGo(true);
+            //좌 65 우 68 상 87 하 83
+            if (keyCode == 68) p2.setRightGo(true);
+            else if (keyCode == 65) p2.setLeftGo(true);
+            else if (keyCode == 83) p2.setDownGo(true);
+            else if (keyCode == 87) p2.setUpGo(true);
+        }
+
         if (keyCode == 32) { // 스페이스바
-            System.out.println(p1.getNumberOfBomb());
             for (int i = 0; i < p1.getNumberOfBomb(); i++) {
                 if (bombs[i] == null) {
                     bombs[i] = new Bomb(p1.getPosition().clone(), p1.getPower(), img);
@@ -96,6 +95,13 @@ public class Main extends PApplet {
 
     @Override
     public void keyReleased() {
+        if (p1 != null && p2 != null) {
+            //좌 65 우 68 상 87 하 83
+            if (keyCode == RIGHT || keyCode == LEFT || keyCode == DOWN || keyCode == UP) p1.setAllgoFalse();
+            if (keyCode == 65 || keyCode == 68 || keyCode == 87 || keyCode == 83) p2.setAllgoFalse();
+
+
+        }
 
     }
 
@@ -135,8 +141,9 @@ public class Main extends PApplet {
     }
 
     public void makeBomberMan() {
-        p1 = new BomberMan(1, 1, img);
-        p2 = new BomberMan(Constants.MAP_WIDTH - 2, Constants.MAP_HEIGHT - 2, img);
+        p1 = new BomberMan(Constants.MAP_WIDTH - 2, Constants.MAP_HEIGHT - 2, img);
+        p2 = new BomberMan(1, 1, img);
+
     }
 
     public void drawBomb() {
@@ -165,6 +172,10 @@ public class Main extends PApplet {
             CollideWithPlayer(p1, x + i, y);
             CollideWithPlayer(p1, x, y - i);
             CollideWithPlayer(p1, x, y + i);
+            CollideWithPlayer(p2, x - i, y);
+            CollideWithPlayer(p2, x + i, y);
+            CollideWithPlayer(p2, x, y - i);
+            CollideWithPlayer(p2, x, y + i);
         }
         for (int i = 0; i <= bomb.getPower(); i++) {
             int state = collideWithBlock(map[x - i][y]);
@@ -232,8 +243,8 @@ public class Main extends PApplet {
     }
 
     private void CollideWithPlayer(BomberMan player, int x, int y) {
-        int px = (int) player.getPosition().getX();
-        int py = (int) player.getPosition().getY();
+        int px = (int) (player.getPosition().getX()+Constants.PLAYER_EXTRA_X);
+        int py = (int) (player.getPosition().getY()+Constants.PLAYER_EXTRA_Y);
 
         if (px == x && py == y) {
             player.isDead(true);
@@ -244,9 +255,11 @@ public class Main extends PApplet {
         if (p1 != null && p1.isDead()) {
             p1 = null;
         }
-        if (p2 != null && p2.isDead()) p2 = null;
-        if (p1 != null) p1.draw(this);
-        if (p2 != null) p2.draw(this);
+        if (p2 != null && p2.isDead()) {
+            p2 = null;
+        }
+        if (p1 != null) p1.draw(this, map);
+        if (p2 != null) p2.draw(this, map);
     }
 
     private void drawItem() {
