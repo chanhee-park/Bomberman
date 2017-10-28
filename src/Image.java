@@ -12,6 +12,8 @@ class Image {
     static PImage effect;
     static PImage[] bomb;
     static PImage[] explosion;
+    static PImage item;
+    static PImage[] items;
 
     Image(PApplet applet) {
         characterMovement = applet.loadImage("./img/bomberman-movement.png");
@@ -51,6 +53,12 @@ class Image {
             for(int j = 0 ; j < 5 ; j++) {
                 explosion[9 * j + i] =  effect.get(25 * i, 25 * j, 25, 25);
             }
+        }
+
+        item = applet.loadImage("./img/bomberman-items.png");
+        items = new PImage[6];
+        for(int i = 0 ; i < 6 ; i++) {
+            items[i] = item.get( 24 * i , 0, 24, 24);
         }
 
     }
