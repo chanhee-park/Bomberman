@@ -63,9 +63,6 @@ public class Main extends PApplet {
             if (p1x == x && p1y == y) {
                 p1.getItem(item);
                 items.remove(item);
-                System.out.println("num : " + p1.getNumberOfBomb());
-                System.out.println("pow : " + p1.getPower());
-                System.out.println("spe : " + p1.getSpeed());
                 break;
             } else if (p2x == x && p2y == y) {
                 p2.getItem(item);
@@ -78,17 +75,20 @@ public class Main extends PApplet {
 
     @Override
     public void keyPressed() {
-        if (keyCode == 77) { // m
+        if (keyCode == 32) { // 스페이스바
+            System.out.println(p1.getNumberOfBomb());
             for (int i = 0; i < p1.getNumberOfBomb(); i++) {
                 if (bombs[i] == null) {
                     bombs[i] = new Bomb(p1.getPosition().clone(), p1.getPower(), img);
+                    break;
                 }
             }
         }
-        if (keyCode == 86) { // v
+        if (keyCode == 16) { // 쉬프트
             for (int i = 3; i < 3 + p1.getNumberOfBomb(); i++) {
                 if (bombs[i] == null) {
                     bombs[i] = new Bomb(p2.getPosition().clone(), p2.getPower(), img);
+                    break;
                 }
             }
         }
