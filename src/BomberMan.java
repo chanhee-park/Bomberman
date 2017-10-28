@@ -2,9 +2,11 @@ import processing.core.PApplet;
 
 public class BomberMan {
     private Position position;
-    Image img;
+    private Image img;
+    private int tick = 0;
     private int state = 0;
-    private int dir = 0;
+    private int headMove = 0;
+    private int headStay = 0;
     private float speed = 0.05f;
     private int power = 1;
     private int numberOfBomb = 1;
@@ -50,29 +52,29 @@ public class BomberMan {
     public void goLeft(Block[][] map) {
         position.setX(position.getX() - speed);
         if (detectCollisionWithBlock(map)) position.setX(position.getX() + speed);
-        dir = 15;
-        this.setState(state + 1);
+        headMove = 15;
+        headStay = 9;
     }
 
     public void goRight(Block[][] map) {
         position.setX(position.getX() + speed);
         if (detectCollisionWithBlock(map)) position.setX(position.getX() - speed);
-        dir = 5;
-        this.setState(state + 1);
+        headMove = 5;
+        headStay = 3;
     }
 
     public void goUP(Block[][] map) {
         position.setY(position.getY() - speed);
         if (detectCollisionWithBlock(map)) position.setY(position.getY() + speed);
-        dir = 10;
-        this.setState(state + 1);
+        headMove = 10;
+        headStay = 6;
     }
 
     public void goDown(Block[][] map) {
         position.setY(position.getY() + speed);
         if (detectCollisionWithBlock(map)) position.setY(position.getY() - speed);
-        dir = 0;
-        this.setState(state + 1);
+        headMove = 0;
+        headStay = 0;
     }
 
     public boolean isDead() {
@@ -114,19 +116,26 @@ public class BomberMan {
         numberOfBomb += 1;
     }
 
-    public int getState() {
-        return state;
-    }
+    public void setState() {
+        state ++;
+        System.out.println("------------------------");
+        System.out.println(state);
+        System.out.println("------------------------");
 
-    public void setState(int state) {
-        this.state = state;
-        if (state > 20) {
-            this.state = 0;
+        if(state > 4) {
+            state = 0;
         }
     }
 
+
     public void draw(PApplet applet) {
-        applet.image(img.characterMovements[dir + (state / 5)], position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
+        tick ++;
+        if(applet.keyPressed){
+            setState();
+            applet.image(img.characterMovements[headMove + (state / 5)],position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
+        }else {
+            applet.image(img.characterStays[((tick / 10) % 3) + headStay], position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
+        }
     }
 
     public void getItem(Item item) {
