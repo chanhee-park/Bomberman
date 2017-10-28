@@ -21,6 +21,7 @@ class Image {
         for(int i = 0 ; i < 5; i ++){
             for(int j = 0 ; j < 4 ; j ++){
                 characterMovements[j * 5  + i] = characterMovement.get(20 * i, 32 * j, 20, 32);
+                characterMovements[j * 5  + i].resize(25,40);
             }
         }
 
@@ -29,6 +30,7 @@ class Image {
         for(int i = 0 ; i < 3; i ++){
             for(int j = 0 ; j < 4 ; j ++){
                 characterStays[j * 3 + i] = characterStay.get(20 * i, 32 * j, 20, 32);
+                characterStays[j * 3 + i].resize(25,40);
             }
         }
 
@@ -46,12 +48,14 @@ class Image {
         bomb = new PImage[4];
         for(int i = 0 ; i < 4 ; i++) {
             bomb[i] = effect.get(24 * i, 0, 24, 24);
+            bomb[i].resize(40,40);
         }
 
         explosion = new PImage[45];
         for(int i = 0 ; i < 9 ; i++) {
             for(int j = 0 ; j < 5 ; j++) {
                 explosion[9 * j + i] =  effect.get(25 * i, 25 * j, 25, 25);
+                explosion[9 * j + i].resize(40,40);
             }
         }
 
@@ -59,6 +63,7 @@ class Image {
         items = new PImage[3];
         for(int i = 0 ; i < 3 ; i++) {
             items[i] = item.get( 24 * i *2 , 0, 24, 24);
+            items[i].resize(40,40);
         }
 
     }
