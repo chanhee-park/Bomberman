@@ -130,10 +130,13 @@ public class Main extends PApplet {
         int y = (int) bomb.getPosition().getY();
 
         for (int i = 0; i <= bomb.getPower(); i++) {
-            collideWithBlock(map[x - i][y]);
-            collideWithBlock(map[x + i][y]);
-            collideWithBlock(map[x][y - i]);
-            collideWithBlock(map[x][y + i]);
+            image(img.explosion[0], x * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+            collideWithBlock(map[x - i][y]); // 왼
+
+            image(img.explosion[0], x * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+            collideWithBlock(map[x + i][y]); // 오
+            collideWithBlock(map[x][y - i]); // 위
+            collideWithBlock(map[x][y + i]); // 아래
 
             CollideWithPlayer(p1, x - 1, y);
             CollideWithPlayer(p1, x + 1, y);
