@@ -30,7 +30,7 @@ public class Main extends PApplet {
         this.background(51, 102, 0);
         drawMap();
         drawPlayers();
-        if (keyPressed) {
+        if (keyPressed && p1 != null && p2 != null) {
             System.out.println(keyCode);
             if (keyCode == RIGHT) p1.goRight(map);
             else if (keyCode == LEFT) p1.goLeft(map);
@@ -128,37 +128,83 @@ public class Main extends PApplet {
     private void explodeBomb(Bomb bomb) {
         int x = (int) bomb.getPosition().getX();
         int y = (int) bomb.getPosition().getY();
+        int power = bomb.getPower();
 
-        for (int i = 0; i <= bomb.getPower(); i++) {
-            image(img.explosion[0], x * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
-            collideWithBlock(map[x - i][y]); // 왼
 
-            image(img.explosion[0], x * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
-            collideWithBlock(map[x + i][y]); // 오
-            collideWithBlock(map[x][y - i]); // 위
-            collideWithBlock(map[x][y + i]); // 아래
 
-            CollideWithPlayer(p1, x - 1, y);
-            CollideWithPlayer(p1, x + 1, y);
-            CollideWithPlayer(p1, x, y - 1);
-            CollideWithPlayer(p1, x, y + 1);
+        for(int i = 0 ; i <= power ; i++) {
+            CollideWithPlayer(p1, x - i, y);
+            CollideWithPlayer(p1, x + i, y);
+            CollideWithPlayer(p1, x, y - i);
+            CollideWithPlayer(p1, x, y + i);
         }
 
+        for (int i = 0; i < 4; i++) {
+            image(img.explosion[9 * (4 - i)], x * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT); // 가운데
+
+            for (int j = 1 ; j < power + 1 ; j++) { // 왼
+                if (collideWithBlock(map[x - j][y]) == 1) {
+                    break;
+                } else if (collideWithBlock(map[x - j][y]) == 2) {
+                    image(img.explosion[9 * (4 - i) + 2], (x - j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+                    break;
+                }
+                image(img.explosion[9 * (4 - i) + 1],(x - j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+            }
+
+            for (int j = 1 ; j < power + 1; j++) { // 오
+                if (collideWithBlock(map[x + j][y]) == 1) {
+                    break;
+                } else if (collideWithBlock(map[x + j][y]) == 2) {
+                    image(img.explosion[9 * (4 - i) + 4], (x + j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+                    break;
+                }
+                image(img.explosion[9 * (4 - i) + 3],(x + j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+            }
+
+            for (int j = 1 ; j < power + 1 ; j++) {  // 위
+                if(collideWithBlock(map[x][y - j]) == 1) {
+                    break;
+                } else if (collideWithBlock(map[x][y - j]) == 2) {
+                    image(img.explosion[9 * (4 - i) + 8], x * Constants.BLOCK_WIDTH, (y - j) * Constants.BLOCK_HEIGHT);
+                    break;
+                }
+                image(img.explosion[9 * (4 - i) + 7],x * Constants.BLOCK_WIDTH, (y - j) * Constants.BLOCK_HEIGHT);
+            }
+
+            for (int j = 1 ; j < power + 1; j++) {  // 아래
+                if(collideWithBlock(map[x][y + j]) == 1) {
+                    break;
+                } else if (collideWithBlock(map[x][y + j]) == 2) {
+                    image(img.explosion[9 * (4 - i) + 6], x * Constants.BLOCK_WIDTH, (y + j) * Constants.BLOCK_HEIGHT);
+                    break;
+                }
+                image(img.explosion[9 * (4 - i) + 5],x * Constants.BLOCK_WIDTH, (y + j) * Constants.BLOCK_HEIGHT);
+            }
+
+
+
+        }
 
     }
 
-    private void collideWithBlock(Block block) {
+    private int collideWithBlock(Block block) {
         Block.Types breakable = Block.Types.BREAKABLE;
         Block.Types absence = Block.Types.ABSENCE;
         if (block.getType() == breakable) {
             block.setType(absence);
-
+            return Constants.BREAKABLE;
+        } else if(block.getType() == Block.Types.UNBREAKABLE){
+            return Constants.UNBREAKABLE;
         }
+        return Constants.ABSENCE;
     }
 
     private void CollideWithPlayer(BomberMan player, int x, int y) {
         int px = (int) player.getPosition().getX();
         int py = (int) player.getPosition().getY();
+        System.out.println(px+", "+py);
+        System.out.println(x+", "+y);
 
         if (px == x && py == y) {
             player.isDead(true);

@@ -46,10 +46,10 @@ class Image {
             bomb[i] = effect.get(24 * i, 0, 24, 24);
         }
 
-        explosion = new PImage[36];
+        explosion = new PImage[45];
         for(int i = 0 ; i < 9 ; i++) {
-            for(int j = 0 ; j < 4 ; j++) {
-                explosion[9 * i + j] =  effect.get(25 * i, 25 * j, 25, 25);
+            for(int j = 0 ; j < 5 ; j++) {
+                explosion[9 * j + i] =  effect.get(25 * i, 25 * j, 25, 25);
             }
         }
 

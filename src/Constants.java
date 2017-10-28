@@ -6,4 +6,8 @@ public class Constants {
 
     static int BLOCK_WIDTH = 40;
     static int BLOCK_HEIGHT = 40;
+
+    static int ABSENCE = 0;
+    static int UNBREAKABLE = 1;
+    static int BREAKABLE = 2;
 }
