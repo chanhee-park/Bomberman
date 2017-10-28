@@ -165,51 +165,47 @@ public class Main extends PApplet {
             CollideWithPlayer(p1, x, y - i);
             CollideWithPlayer(p1, x, y + i);
         }
-
-        for (int i = 0; i < 4; i++) {
-            image(img.explosion[9 * (4 - i)], x * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT); // 가운데
-
-            for (int j = 1; j < power + 1; j++) { // 왼
-                if (collideWithBlock(map[x - j][y]) == 1) {
-                    break;
-                } else if (collideWithBlock(map[x - j][y]) == 2) {
-                    image(img.explosion[9 * (4 - i) + 2], (x - j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
-                    break;
-                }
-                image(img.explosion[9 * (4 - i) + 1], (x - j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+        for (int i = 0; i <= bomb.getPower(); i++) {
+            int state = collideWithBlock(map[x - i][y]);
+            if (state == 1) {
+                break;
+            } else if (state == 2){
+                image(img.explosion[9 * (4 - i) + 2], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+                break;
             }
-
-            for (int j = 1; j < power + 1; j++) { // 오
-                if (collideWithBlock(map[x + j][y]) == 1) {
-                    break;
-                } else if (collideWithBlock(map[x + j][y]) == 2) {
-                    image(img.explosion[9 * (4 - i) + 4], (x + j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
-                    break;
-                }
-                image(img.explosion[9 * (4 - i) + 3], (x + j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
-            }
-
-            for (int j = 1; j < power + 1; j++) {  // 위
-                if (collideWithBlock(map[x][y - j]) == 1) {
-                    break;
-                } else if (collideWithBlock(map[x][y - j]) == 2) {
-                    image(img.explosion[9 * (4 - i) + 8], x * Constants.BLOCK_WIDTH, (y - j) * Constants.BLOCK_HEIGHT);
-                    break;
-                }
-                image(img.explosion[9 * (4 - i) + 7], x * Constants.BLOCK_WIDTH, (y - j) * Constants.BLOCK_HEIGHT);
-            }
-
-            for (int j = 1; j < power + 1; j++) {  // 아래
-                if (collideWithBlock(map[x][y + j]) == 1) {
-                    break;
-                } else if (collideWithBlock(map[x][y + j]) == 2) {
-                    image(img.explosion[9 * (4 - i) + 6], x * Constants.BLOCK_WIDTH, (y + j) * Constants.BLOCK_HEIGHT);
-                    break;
-                }
-                image(img.explosion[9 * (4 - i) + 5], x * Constants.BLOCK_WIDTH, (y + j) * Constants.BLOCK_HEIGHT);
-            }
-
+            image(img.explosion[9 * (4 - i) + 1], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
         }
+        for (int i = 0; i <= bomb.getPower(); i++) {
+            int state = collideWithBlock(map[x + i][y]);
+            if (state == 1) {
+                break;
+            } else if (state == 2){
+                image(img.explosion[9 * (4 - i) + 2], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+                break;
+            }
+            image(img.explosion[9 * (4 - i) + 1], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+        }
+        for (int i = 0; i <= bomb.getPower(); i++) {
+            int state = collideWithBlock(map[x][y+i]);
+            if (state == 1) {
+                break;
+            } else if (state == 2){
+                image(img.explosion[9 * (4 - i) + 2], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+                break;
+            }
+            image(img.explosion[9 * (4 - i) + 1], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+        }
+        for (int i = 0; i <= bomb.getPower(); i++) {
+            int state = collideWithBlock(map[x][y-i]);
+            if (state == 1) {
+                break;
+            } else if (state == 2){
+                image(img.explosion[9 * (4 - i) + 2], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+                break;
+            }
+            image(img.explosion[9 * (4 - i) + 1], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+        }
+
 
     }
 
