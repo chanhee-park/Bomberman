@@ -28,20 +28,24 @@ public class Main extends PApplet {
     public void draw() {
         this.background(51,102,0);
         drawMap();
+
+
         if(keyPressed) {
-            if (keyCode == RIGHT) p1.goRight(map, this);
-            else if (keyCode == LEFT) p1.goLeft(map, this);
-            else if (keyCode == DOWN) p1.goDown(map, this);
-            else if (keyCode == UP) p1.goUP(map, this);
-        } else p1.draw(this);
+            if (keyCode == RIGHT) p1.goRight(map);
+            else if (keyCode == LEFT) p1.goLeft(map);
+            else if (keyCode == DOWN) p1.goDown(map);
+            else if (keyCode == UP) p1.goUP(map);
+        }
+
+        p1.draw(this);
         drawBomb();
     }
 
     @Override
     public void keyPressed() {
-        String code = String.valueOf(keyCode).toUpperCase();
-        if(code.equals('m')) {
-            bombs[0] = new Bomb(p1.position, 1, img);
+        System.out.println(keyCode);
+        if(keyCode == 77) {
+            bombs[0] = new Bomb(p1.position.clone(), 1, img);
         }
     }
 
@@ -94,6 +98,5 @@ public class Main extends PApplet {
             return;
         }
         bombs[0].draw(this);
-
     }
 }
