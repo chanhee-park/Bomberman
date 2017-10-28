@@ -11,10 +11,12 @@ public class Main extends PApplet {
     @Override
     public void settings() {
         this.size(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+
     }
 
     @Override
     public void setup() {
+        this.background(51,102,0);
         makeMap();
         makeBomberMan();
     }

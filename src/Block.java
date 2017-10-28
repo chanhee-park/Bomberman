@@ -2,6 +2,7 @@ import processing.core.PApplet;
 
 public class Block {
     private Position position;
+    private Image img = new Image();
 
     enum Types {
         BREAKABLE,
@@ -37,13 +38,10 @@ public class Block {
     }
 
     public void draw(PApplet applet, Types type){
-        if(type == Types.ABSENCE){
-            applet.fill(255);
-        }else if(type == Types.UNBREAKABLE){
-            applet.fill(0);
+        if(type == Types.UNBREAKABLE){
+            applet.image(img.setUnBreakableBlock(applet),position.getX()*40,position.getY()*40);
         }else if(type == Types.BREAKABLE){
-            applet.fill(150);
+            applet.image(img.setBreakableBlock(applet)[0],position.getX()*40,position.getY()*40);
         }
-        applet.rect(position.getX()*40,position.getY()*40,Constants.BLOCK_WIDTH,Constants.BLOCK_HEIGHT);
     }
 }
