@@ -118,10 +118,6 @@ public class BomberMan {
 
     public void setState() {
         state ++;
-        System.out.println("------------------------");
-        System.out.println(state);
-        System.out.println("------------------------");
-
         if(state > 4) {
             state = 0;
         }
