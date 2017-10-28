@@ -9,7 +9,7 @@ public class Block {
         UNBREAKABLE,
         ABSENCE
     }
-    Block.Types type;
+    private Block.Types type;
 
     Block(int x, int y, Block.Types type, Image img) {
         this.img = img;
@@ -18,6 +18,18 @@ public class Block {
             return;
         }
         position = new Position(x,y);
+        this.type = type;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public Types getType() {
+        return type;
+    }
+
+    public void setType(Types type) {
         this.type = type;
     }
 

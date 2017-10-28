@@ -6,6 +6,7 @@ public class Bomb {
     int bombState = 0;
     private int power;
     private long makeTime;
+    private boolean exploded;
 
     Bomb(Position position, int power, Image img) {
         this.position = position;
@@ -13,12 +14,26 @@ public class Bomb {
         if (power > 3) power = 3;
         this.power = power;
         this.makeTime = System.currentTimeMillis();
+        this.exploded = false;
         System.out.println("생성 : " + makeTime);
     }
 
-    public boolean explode() {
+    public Position getPosition() {
+        return position;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public boolean isExploded(){
+        return exploded;
+    }
+
+
+    public void explode() {
         System.out.println("폭발!");
-        return true;
+        this.exploded = true;
     }
 
     public void draw(PApplet applet) {
@@ -26,6 +41,6 @@ public class Bomb {
         if(System.currentTimeMillis() - makeTime > 2000){
             explode();
         }
-        applet.image(img.bombs[0],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+0);
+        applet.image(img.bombs[0],position.getX()*Constants.BLOCK_WIDTH, position.getY()*Constants.BLOCK_HEIGHT);
     }
 }

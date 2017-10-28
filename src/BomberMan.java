@@ -14,6 +14,33 @@ public class BomberMan {
         this.img = img;
     }
 
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        if(speed>=0.2f) return;
+        this.speed = speed;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        if(power>=3) return;
+        this.power = power;
+    }
+
+    public int getNumberOfBomb() {
+        return numberOfBomb;
+    }
+
+    public void setNumberOfBomb(int numberOfBomb) {
+        if(numberOfBomb>=3) return;
+        this.numberOfBomb = numberOfBomb;
+    }
+
     public void goLeft(Block[][] map) {
         position.setX(position.getX() - speed);
         if (detectCollisionWithBlock(map)) position.setX(position.getX() + speed);
@@ -43,19 +70,19 @@ public class BomberMan {
     }
 
     public boolean detectCollisionWithBlock(Block[][] map) {
-        int x1 = (int) (position.getX() + 0.2);
-        int x2 = (int) (position.getX() + 0.8); // 사이즈 맨 밑에
-        int y1 = (int) (position.getY() + 0.2);
-        int y2 = (int) (position.getY() + 0.8);
+        int x1 = (int) (position.getX() + 0.1);
+        int x2 = (int) (position.getX() + 0.6); // 사이즈 맨 밑에
+        int y1 = (int) (position.getY());
+        int y2 = (int) (position.getY() + 0.7);
 
         System.out.println(x1 + " " + x2 + " " + y1 + " " + y2 + " ");
 
         Block.Types brk = Block.Types.BREAKABLE;
         Block.Types unbrk = Block.Types.UNBREAKABLE;
-        if (map[x1][y1].type == brk || map[x1][y1].type == unbrk) return true;
-        if (map[x1][y2].type == brk || map[x1][y2].type == unbrk) return true;
-        if (map[x2][y1].type == brk || map[x2][y1].type == unbrk) return true;
-        if (map[x2][y2].type == brk || map[x2][y2].type == unbrk) return true;
+        if (map[x1][y1].getType() == brk || map[x1][y1].getType() == unbrk) return true;
+        if (map[x1][y2].getType() == brk || map[x1][y2].getType() == unbrk) return true;
+        if (map[x2][y1].getType() == brk || map[x2][y1].getType() == unbrk) return true;
+        if (map[x2][y2].getType() == brk || map[x2][y2].getType() == unbrk) return true;
 
         return false;
     }
@@ -87,7 +114,7 @@ public class BomberMan {
     }
 
     public void draw(PApplet applet) {
-        applet.image(img.characterMovements[dir+(state/5)],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        applet.image(img.characterMovements[dir+(state/5)],position.getX()*Constants.BLOCK_WIDTH, position.getY()*Constants.BLOCK_HEIGHT);
     }
 
 

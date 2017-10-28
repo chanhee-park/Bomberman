@@ -5,6 +5,7 @@ public class Main extends PApplet {
     Image img;
     BomberMan p1;
     Bomb[] bombs = new Bomb[6];
+
     public static void main(String[] args) {
         PApplet.main("Main");
         Main m = new Main();
@@ -18,7 +19,7 @@ public class Main extends PApplet {
 
     @Override
     public void setup() {
-        this.background(51,102,0);
+        this.background(51, 102, 0);
         img = new Image(this);
         makeMap();
         makeBomberMan();
@@ -26,11 +27,11 @@ public class Main extends PApplet {
 
     @Override
     public void draw() {
-        this.background(51,102,0);
+        this.background(51, 102, 0);
         drawMap();
 
 
-        if(keyPressed) {
+        if (keyPressed) {
             if (keyCode == RIGHT) p1.goRight(map);
             else if (keyCode == LEFT) p1.goLeft(map);
             else if (keyCode == DOWN) p1.goDown(map);
@@ -44,8 +45,19 @@ public class Main extends PApplet {
     @Override
     public void keyPressed() {
         System.out.println(keyCode);
-        if(keyCode == 77) {
-            bombs[0] = new Bomb(p1.position.clone(), 1, img);
+        if (keyCode == 77) { // m
+            for (int i = 0; i < p1.getNumberOfBomb(); i++) {
+                if (bombs[i] == null) {
+                    bombs[0] = new Bomb(p1.position.clone(), p1.getPower(), img);
+                }
+            }
+        }
+        if (keyCode == 86) { // v
+            for (int i = 3; i < 3 + p1.getNumberOfBomb(); i++) {
+                if (bombs[i] == null) {
+                    bombs[0] = new Bomb(p1.position.clone(), p1.getPower(), img);
+                }
+            }
         }
     }
 
@@ -84,19 +96,58 @@ public class Main extends PApplet {
     public void drawMap() {
         for (int y = 0; y < Constants.MAP_HEIGHT; y++) {
             for (int x = 0; x < Constants.MAP_WIDTH; x++) {
-                map[x][y].draw(this, map[x][y].type);
+                map[x][y].draw(this, map[x][y].getType());
             }
         }
     }
 
     public void makeBomberMan() {
-        p1 = new BomberMan(1,1, img);
+        p1 = new BomberMan(1, 1, img);
     }
 
     public void drawBomb() {
-        if(bombs[0]==null){
-            return;
+        for (int i = 0; i < 6; i++) {
+            if (bombs[i] == null) {
+                continue;
+            }
+            if (bombs[i].isExploded()) {
+                explodeBomb(bombs[i]);
+                bombs[i] = null;
+                continue;
+            }
+            bombs[i].draw(this);
         }
-        bombs[0].draw(this);
+    }
+
+
+    public void explodeBomb(Bomb bomb) {
+        int x = (int) bomb.getPosition().getX();
+        int y = (int) bomb.getPosition().getY();
+        System.out.println(x+",  "+y);
+        Block.Types breakable = Block.Types.BREAKABLE;
+        Block.Types absence = Block.Types.ABSENCE;
+
+        for(int i=1; i<=bomb.getPower(); i++){
+
+            if(map[x-i][y].getType() == breakable){
+                map[x-i][y].setType(absence);
+                System.out.println("없애야지");
+            }
+
+            System.out.println(map[x+i][y].getType());
+            if(map[x+i][y].getType() == breakable) {
+                map[x+i][y].setType(Block.Types.ABSENCE);
+                System.out.println("없애야지");
+                System.out.println(map[x+i][y].getType());
+            }
+            if(map[x][y-i].getType() == breakable) {
+                map[x][y-i].setType(absence);
+                System.out.println("없애야지");
+            }
+            if(map[x][y+i].getType() == breakable) {
+                map[x][y+i].setType(absence);
+                System.out.println("없애야지");
+            }
+        }
     }
 }
