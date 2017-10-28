@@ -8,9 +8,10 @@ class Image {
     static PImage[] characterStays;
     static PImage block;
     static PImage unBreakableBlock;
-    static PImage[] breakableBlocks;
-    static PImage bomb;
-    static PImage[] bombs;
+    static PImage[] breakableBlock;
+    static PImage effect;
+    static PImage[] bomb;
+    static PImage[] explosion;
 
     Image(PApplet applet) {
         characterMovement = applet.loadImage("./img/bomberman-movement.png");
@@ -33,16 +34,25 @@ class Image {
         unBreakableBlock = block.get(40 * 0, 40 * 3, 40, 40);
 
 
-        breakableBlocks = new PImage[3];
+        breakableBlock = new PImage[3];
         for(int i = 0 ; i < 3 ; i++) {
-            breakableBlocks[i] = block.get(40 * i, 0, 40, 40);
+            breakableBlock[i] = block.get(40 * i, 0, 40, 40);
         }
 
-        bomb = applet.loadImage("./img/bomberman-effect.png");
-        bombs = new PImage[4];
+        effect = applet.loadImage("./img/bomberman-effect.png");
+
+        bomb = new PImage[4];
         for(int i = 0 ; i < 4 ; i++) {
-            bombs[i] = bomb.get(24 * i, 0, 24, 24);
+            bomb[i] = effect.get(24 * i, 0, 24, 24);
         }
+
+        explosion = new PImage[36];
+        for(int i = 0 ; i < 9 ; i++) {
+            for(int j = 0 ; j < 4 ; j++) {
+                explosion[9 * i + j] =  effect.get(25 * i, 25 * j, 25, 25);
+            }
+        }
+
     }
 
 }
