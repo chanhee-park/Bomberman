@@ -28,7 +28,7 @@ class Image {
         characterStays = new PImage[12];
         for(int i = 0 ; i < 3; i ++){
             for(int j = 0 ; j < 4 ; j ++){
-                characterStay.get(20 * i, 32 * j, 20, 32);
+                characterStays[j * 3 + i] = characterStay.get(20 * i, 32 * j, 20, 32);
             }
         }
 

@@ -3,6 +3,7 @@ import processing.core.PApplet;
 public class Bomb {
     private Position position;
     private Image img;
+    int tick = 0;
     int bombState = 0;
     private int power;
     private long makeTime;
@@ -41,7 +42,9 @@ public class Bomb {
         if(System.currentTimeMillis() - makeTime > 2000){
             explode();
         }
-        applet.image(img.bomb[0],position.getX()*Constants.BLOCK_WIDTH, position.getY()*Constants.BLOCK_HEIGHT);
+
+        tick ++;
+        applet.image(img.bomb[tick / 10 % 3], position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
     }
 
 }
