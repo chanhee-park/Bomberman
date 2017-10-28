@@ -24,11 +24,13 @@ public class Item {
         return type;
     }
 
-    public void draw(PApplet applet){
-        if(this.type == Types.SPEED) applet.image(img.items[2],position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
-        if(this.type == Types.POWER) applet.image(img.items[0],position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
-        if(this.type == Types.NUMBER) applet.image(img.items[1],position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
-        applet.ellipse(position.getX()*40+10,position.getY()*40+10,25,25);
+    public void draw(PApplet applet) {
+        if (this.type == Types.SPEED)
+            applet.image(img.items[2], position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
+        if (this.type == Types.POWER)
+            applet.image(img.items[0], position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
+        if (this.type == Types.NUMBER)
+            applet.image(img.items[1], position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
     }
 }
 
