@@ -23,6 +23,7 @@ public class Main extends PApplet {
 
     @Override
     public void draw() {
+        this.background(51,102,0);
         drawMap();
         p1.draw(this);
     }

@@ -68,7 +68,7 @@ public class BomberMan {
     }
 
     public void draw(PApplet applet) {
-        applet.image(img.getCharacterImg(applet)[2],position.getX()*Constants.BLOCK_WIDTH+Constants.BLOCK_WIDTH/2, position.getY()*Constants.BLOCK_HEIGHT+Constants.BLOCK_HEIGHT/2);
+        applet.image(img.getCharacterImg(applet)[2],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
     }
 
 
