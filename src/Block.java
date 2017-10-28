@@ -54,7 +54,7 @@ public class Block {
         if(type == Types.UNBREAKABLE){
             applet.image(img.unBreakableBlock,position.getX()*40,position.getY()*40);
         }else if(type == Types.BREAKABLE){
-            applet.image(img.breakableBlocks[0],position.getX()*40,position.getY()*40);
+            applet.image(img.breakableBlock[0],position.getX()*40,position.getY()*40);
         }
     }
 }

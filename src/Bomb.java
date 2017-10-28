@@ -41,6 +41,7 @@ public class Bomb {
         if(System.currentTimeMillis() - makeTime > 2000){
             explode();
         }
-        applet.image(img.bombs[0],position.getX()*Constants.BLOCK_WIDTH, position.getY()*Constants.BLOCK_HEIGHT);
+        applet.image(img.bomb[0],position.getX()*Constants.BLOCK_WIDTH, position.getY()*Constants.BLOCK_HEIGHT);
     }
+
 }
