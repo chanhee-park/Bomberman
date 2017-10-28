@@ -2,12 +2,10 @@ import processing.core.PApplet;
 
 public class Main extends PApplet {
     Block[][] map = new Block[Constants.MAP_WIDTH][Constants.MAP_HEIGHT];
-
+    BomberMan p1;
     public static void main(String[] args) {
-//        PApplet.main("Main");
+        PApplet.main("Main");
         Main m = new Main();
-        m.makeMap();
-
     }
 
     @Override
@@ -18,16 +16,21 @@ public class Main extends PApplet {
     @Override
     public void setup() {
         makeMap();
+        makeBomberMan();
     }
 
     @Override
     public void draw() {
-
+        drawMap();
+        p1.draw(this);
     }
 
     @Override
     public void keyPressed() {
-
+        if(keyCode==RIGHT) p1.goRight(map);
+        if(keyCode==LEFT) p1.goLeft(map);
+        if(keyCode==DOWN) p1.goDown(map);
+        if(keyCode==UP) p1.goUP(map);
     }
 
     @Override
@@ -65,18 +68,12 @@ public class Main extends PApplet {
     public void drawMap() {
         for (int y = 0; y < Constants.MAP_HEIGHT; y++) {
             for (int x = 0; x < Constants.MAP_WIDTH; x++) {
-                Block.Types type = map[x][y].type;
-                if (type == Block.Types.UNBREAKABLE) {
-                    System.out.print("m");
-                } else if (type == Block.Types.BREAKABLE) {
-                    System.out.print(".");
-                } else if (type == Block.Types.ABSENCE) {
-                    System.out.print(" ");
-                } else {
-                    System.out.print("~~~~");
-                }
+                map[x][y].draw(this, map[x][y].type);
             }
-            System.out.print("\n");
         }
+    }
+
+    public void makeBomberMan() {
+        p1 = new BomberMan(1,1);
     }
 }

@@ -1,25 +1,12 @@
+import processing.core.PApplet;
+
 public class Block {
     private Position position;
 
     enum Types {
-        BREAKABLE {
-            @Override
-            void draw() {
-
-            }
-        }, UNBREAKABLE {
-            @Override
-            void draw() {
-
-            }
-        }, ABSENCE {
-            @Override
-            void draw() {
-
-            }
-        };
-
-        abstract void draw();
+        BREAKABLE,
+        UNBREAKABLE,
+        ABSENCE
     }
     Block.Types type;
 
@@ -49,4 +36,14 @@ public class Block {
         else return new Item(position,Item.Types.NUMBER);
     }
 
+    public void draw(PApplet applet, Types type){
+        if(type == Types.ABSENCE){
+            applet.fill(255);
+        }else if(type == Types.UNBREAKABLE){
+            applet.fill(0);
+        }else if(type == Types.BREAKABLE){
+            applet.fill(150);
+        }
+        applet.rect(position.getX()*40,position.getY()*40,Constants.BLOCK_WIDTH,Constants.BLOCK_HEIGHT);
+    }
 }
