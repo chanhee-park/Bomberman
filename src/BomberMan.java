@@ -2,23 +2,23 @@ import processing.core.PApplet;
 
 public class BomberMan {
     Position position;
-    Image img = new Image();
+    Image img;
     private int state = 0;
     private int dir=0;
-    private float speed = 0.5f;
+    private float speed = 0.05f;
     private int power = 1;
     private int numberOfBomb = 1;
 
-    BomberMan(int x, int y) {
+    BomberMan(int x, int y, PApplet applet) {
         this.position = new Position(x, y);
-
+        img = new Image(applet);
     }
 
     public void goLeft(Block[][] map, PApplet applet) {
         position.setX(position.getX() - speed);
         if (detectCollisionWithBlock(map)) position.setX(position.getX() + speed);
         dir =15;
-        applet.image(img.getCharacterImg(applet)[15+state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        applet.image(img.characterMovements[15+state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
         this.setState(state+1);
     }
 
@@ -26,7 +26,7 @@ public class BomberMan {
         position.setX(position.getX() + speed);
         if (detectCollisionWithBlock(map)) position.setX(position.getX() - speed);
         dir = 5;
-        applet.image(img.getCharacterImg(applet)[5+state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        applet.image(img.characterMovements[5+state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
         this.setState(state+1);
 
     }
@@ -35,7 +35,7 @@ public class BomberMan {
         position.setY(position.getY() - speed);
         if (detectCollisionWithBlock(map)) position.setY(position.getY() + speed);
         dir = 10;
-        applet.image(img.getCharacterImg(applet)[10+state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        applet.image(img.characterMovements[10+state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
         this.setState(state+1);
     }
 
@@ -43,7 +43,7 @@ public class BomberMan {
         position.setY(position.getY() + speed);
         if (detectCollisionWithBlock(map)) position.setY(position.getY() - speed);
         dir = 0;
-        applet.image(img.getCharacterImg(applet)[state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        applet.image(img.characterMovements[state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
         this.setState(state+1);
     }
 
@@ -92,7 +92,7 @@ public class BomberMan {
     }
 
     public void draw(PApplet applet) {
-        applet.image(img.getCharacterImg(applet)[dir + 2],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        applet.image(img.characterMovements[dir + 2],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
     }
 
 

@@ -56,16 +56,16 @@ public class Main extends PApplet {
                 } else {
                     type = Block.Types.ABSENCE;
                 }
-                map[x][y] = new Block(x, y, type);
+                map[x][y] = new Block(x, y, type, this);
 
             }
         }
-        map[1][1] = new Block(1, 1, Block.Types.ABSENCE);
-        map[1][2] = new Block(1, 2, Block.Types.ABSENCE);
-        map[2][1] = new Block(2, 1, Block.Types.ABSENCE);
-        map[Constants.MAP_WIDTH - 2][Constants.MAP_HEIGHT - 2] = new Block(Constants.MAP_WIDTH - 2, Constants.MAP_HEIGHT - 2, Block.Types.ABSENCE);
-        map[Constants.MAP_WIDTH - 2][Constants.MAP_HEIGHT - 3] = new Block(Constants.MAP_WIDTH - 2, Constants.MAP_HEIGHT - 3, Block.Types.ABSENCE);
-        map[Constants.MAP_WIDTH - 3][Constants.MAP_HEIGHT - 2] = new Block(Constants.MAP_WIDTH - 3, Constants.MAP_HEIGHT - 1, Block.Types.ABSENCE);
+        map[1][1] = new Block(1, 1, Block.Types.ABSENCE, this);
+        map[1][2] = new Block(1, 2, Block.Types.ABSENCE, this);
+        map[2][1] = new Block(2, 1, Block.Types.ABSENCE, this);
+        map[Constants.MAP_WIDTH - 2][Constants.MAP_HEIGHT - 2] = new Block(Constants.MAP_WIDTH - 2, Constants.MAP_HEIGHT - 2, Block.Types.ABSENCE, this);
+        map[Constants.MAP_WIDTH - 2][Constants.MAP_HEIGHT - 3] = new Block(Constants.MAP_WIDTH - 2, Constants.MAP_HEIGHT - 3, Block.Types.ABSENCE, this);
+        map[Constants.MAP_WIDTH - 3][Constants.MAP_HEIGHT - 2] = new Block(Constants.MAP_WIDTH - 3, Constants.MAP_HEIGHT - 1, Block.Types.ABSENCE, this);
 
         drawMap();
     }
@@ -79,6 +79,6 @@ public class Main extends PApplet {
     }
 
     public void makeBomberMan() {
-        p1 = new BomberMan(1,1);
+        p1 = new BomberMan(1,1, this);
     }
 }
