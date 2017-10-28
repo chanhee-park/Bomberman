@@ -5,7 +5,7 @@ public class BomberMan {
     Image img = new Image();
     private int state = 0;
     private int dir=0;
-    private float speed = 0.5f;
+    private float speed = 0.1f;
     private int power = 1;
     private int numberOfBomb = 1;
 
