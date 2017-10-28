@@ -10,7 +10,8 @@ public class Bomb {
     private boolean exploded;
 
     Bomb(Position position, int power, Image img) {
-        this.position = position;
+
+        this.position = new Position((int) position.getX(), (int) position.getY());
         this.img = img;
         if (power > 3) power = 3;
         this.power = power;
@@ -27,7 +28,7 @@ public class Bomb {
         return power;
     }
 
-    public boolean isExploded(){
+    public boolean isExploded() {
         return exploded;
     }
 
@@ -39,11 +40,11 @@ public class Bomb {
 
     public void draw(PApplet applet) {
         bombState++;
-        if(System.currentTimeMillis() - makeTime > 2000){
+        if (System.currentTimeMillis() - makeTime > 2000) {
             explode();
         }
 
-        tick ++;
+        tick++;
         applet.image(img.bomb[tick / 10 % 3], position.getX() * Constants.BLOCK_WIDTH, position.getY() * Constants.BLOCK_HEIGHT);
     }
 
