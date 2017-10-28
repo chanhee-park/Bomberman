@@ -18,7 +18,7 @@ public class BomberMan {
         position.setX(position.getX() - speed);
         if (detectCollisionWithBlock(map)) position.setX(position.getX() + speed);
         dir =15;
-        applet.image(img.characterMovements[15+state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        // applet.image(img.characterMovements[dir+(state/5)],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
         this.setState(state+1);
     }
 
@@ -26,7 +26,7 @@ public class BomberMan {
         position.setX(position.getX() + speed);
         if (detectCollisionWithBlock(map)) position.setX(position.getX() - speed);
         dir = 5;
-        applet.image(img.characterMovements[5+state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        // applet.image(img.characterMovements[dir+state/5],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
         this.setState(state+1);
 
     }
@@ -35,7 +35,7 @@ public class BomberMan {
         position.setY(position.getY() - speed);
         if (detectCollisionWithBlock(map)) position.setY(position.getY() + speed);
         dir = 10;
-        applet.image(img.characterMovements[10+state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        // applet.image(img.characterMovements[dir+state/5],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
         this.setState(state+1);
     }
 
@@ -43,15 +43,15 @@ public class BomberMan {
         position.setY(position.getY() + speed);
         if (detectCollisionWithBlock(map)) position.setY(position.getY() - speed);
         dir = 0;
-        applet.image(img.characterMovements[state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        // applet.image(img.characterMovements[state/5],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
         this.setState(state+1);
     }
 
     public boolean detectCollisionWithBlock(Block[][] map) {
-        int x1 = (int) position.getX();
-        int x2 = (int) (position.getX() + 0.99); // 사이즈 맨 밑에
-        int y1 = (int) position.getY();
-        int y2 = (int) (position.getY() + 0.99);
+        int x1 = (int) (position.getX() + 0.2);
+        int x2 = (int) (position.getX() + 0.8); // 사이즈 맨 밑에
+        int y1 = (int) (position.getY() + 0.2);
+        int y2 = (int) (position.getY() + 0.8);
 
         System.out.println(x1 + " " + x2 + " " + y1 + " " + y2 + " ");
 
@@ -86,7 +86,7 @@ public class BomberMan {
 
     public void setState(int state) {
         this.state = state;
-        if(state > 4) {
+        if(state > 20) {
             this.state =0;
         }
     }
