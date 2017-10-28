@@ -1,8 +1,6 @@
-package com.company;
-
 import processing.core.PApplet;
 
-public class Main {
+public class Main extends PApplet {
 
     public static void main(String[] args) {
         PApplet.main("Program");
@@ -30,7 +28,6 @@ public class Main {
 
     @Override
     public void keyReleased() {
-        if (keyCode == CONTROL) {
-        }
+
     }
 }
