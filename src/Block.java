@@ -2,7 +2,7 @@ import processing.core.PApplet;
 
 public class Block {
     private Position position;
-    private Image img;
+    Image img;
 
     enum Types {
         BREAKABLE,
@@ -11,14 +11,14 @@ public class Block {
     }
     Block.Types type;
 
-    Block(int x, int y, Block.Types type, PApplet applet) {
+    Block(int x, int y, Block.Types type, Image img) {
+        this.img = img;
         if(x<0 || x>= 20 ||y<0 || y>=15) {
             System.out.println("위치 에러");
             return;
         }
         position = new Position(x,y);
         this.type = type;
-        img = new Image(applet);
     }
 
     public Item brake(){

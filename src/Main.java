@@ -2,7 +2,9 @@ import processing.core.PApplet;
 
 public class Main extends PApplet {
     Block[][] map = new Block[Constants.MAP_WIDTH][Constants.MAP_HEIGHT];
+    Image img;
     BomberMan p1;
+    Bomb[] bombs = new Bomb[6];
     public static void main(String[] args) {
         PApplet.main("Main");
         Main m = new Main();
@@ -17,6 +19,7 @@ public class Main extends PApplet {
     @Override
     public void setup() {
         this.background(51,102,0);
+        img = new Image(this);
         makeMap();
         makeBomberMan();
     }
@@ -31,11 +34,14 @@ public class Main extends PApplet {
             else if (keyCode == DOWN) p1.goDown(map, this);
             else if (keyCode == UP) p1.goUP(map, this);
         } else p1.draw(this);
+        drawBomb();
     }
 
     @Override
     public void keyPressed() {
-
+        if(keyCode == 'm') {
+            bombs[0] = new Bomb(p1.position, 1, img);
+        }
     }
 
     @Override
@@ -56,16 +62,16 @@ public class Main extends PApplet {
                 } else {
                     type = Block.Types.ABSENCE;
                 }
-                map[x][y] = new Block(x, y, type, this);
+                map[x][y] = new Block(x, y, type, img);
 
             }
         }
-        map[1][1] = new Block(1, 1, Block.Types.ABSENCE, this);
-        map[1][2] = new Block(1, 2, Block.Types.ABSENCE, this);
-        map[2][1] = new Block(2, 1, Block.Types.ABSENCE, this);
-        map[Constants.MAP_WIDTH - 2][Constants.MAP_HEIGHT - 2] = new Block(Constants.MAP_WIDTH - 2, Constants.MAP_HEIGHT - 2, Block.Types.ABSENCE, this);
-        map[Constants.MAP_WIDTH - 2][Constants.MAP_HEIGHT - 3] = new Block(Constants.MAP_WIDTH - 2, Constants.MAP_HEIGHT - 3, Block.Types.ABSENCE, this);
-        map[Constants.MAP_WIDTH - 3][Constants.MAP_HEIGHT - 2] = new Block(Constants.MAP_WIDTH - 3, Constants.MAP_HEIGHT - 1, Block.Types.ABSENCE, this);
+        map[1][1] = new Block(1, 1, Block.Types.ABSENCE, img);
+        map[1][2] = new Block(1, 2, Block.Types.ABSENCE, img);
+        map[2][1] = new Block(2, 1, Block.Types.ABSENCE, img);
+        map[Constants.MAP_WIDTH - 2][Constants.MAP_HEIGHT - 2] = new Block(Constants.MAP_WIDTH - 2, Constants.MAP_HEIGHT - 2, Block.Types.ABSENCE, img);
+        map[Constants.MAP_WIDTH - 2][Constants.MAP_HEIGHT - 3] = new Block(Constants.MAP_WIDTH - 2, Constants.MAP_HEIGHT - 3, Block.Types.ABSENCE, img);
+        map[Constants.MAP_WIDTH - 3][Constants.MAP_HEIGHT - 2] = new Block(Constants.MAP_WIDTH - 3, Constants.MAP_HEIGHT - 1, Block.Types.ABSENCE, img);
 
         drawMap();
     }
@@ -79,6 +85,14 @@ public class Main extends PApplet {
     }
 
     public void makeBomberMan() {
-        p1 = new BomberMan(1,1, this);
+        p1 = new BomberMan(1,1, img);
+    }
+
+    public void drawBomb() {
+        if(bombs[0]==null){
+            return;
+        }
+        bombs[0].draw(this);
+
     }
 }
