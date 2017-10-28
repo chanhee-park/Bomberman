@@ -3,7 +3,7 @@ import processing.core.PApplet;
 public class Main extends PApplet {
     Block[][] map = new Block[Constants.MAP_WIDTH][Constants.MAP_HEIGHT];
     Image img;
-    BomberMan p1;
+    BomberMan p1, p2;
     Bomb[] bombs = new Bomb[6];
 
     public static void main(String[] args) {
@@ -29,16 +29,20 @@ public class Main extends PApplet {
     public void draw() {
         this.background(51, 102, 0);
         drawMap();
-
-
+        drawPlayers();
         if (keyPressed) {
+            System.out.println(keyCode);
             if (keyCode == RIGHT) p1.goRight(map);
             else if (keyCode == LEFT) p1.goLeft(map);
             else if (keyCode == DOWN) p1.goDown(map);
             else if (keyCode == UP) p1.goUP(map);
+
+            if (keyCode == 68) p2.goRight(map);
+            else if (keyCode == 65) p2.goLeft(map);
+            else if (keyCode == 83) p2.goDown(map);
+            else if (keyCode == 87) p2.goUP(map);
         }
 
-        p1.draw(this);
         drawBomb();
     }
 
@@ -48,14 +52,14 @@ public class Main extends PApplet {
         if (keyCode == 77) { // m
             for (int i = 0; i < p1.getNumberOfBomb(); i++) {
                 if (bombs[i] == null) {
-                    bombs[0] = new Bomb(p1.position.clone(), p1.getPower(), img);
+                    bombs[0] = new Bomb(p1.getPosition().clone(), p1.getPower(), img);
                 }
             }
         }
         if (keyCode == 86) { // v
             for (int i = 3; i < 3 + p1.getNumberOfBomb(); i++) {
                 if (bombs[i] == null) {
-                    bombs[0] = new Bomb(p1.position.clone(), p1.getPower(), img);
+                    bombs[0] = new Bomb(p2.getPosition().clone(), p2.getPower(), img);
                 }
             }
         }
@@ -103,6 +107,7 @@ public class Main extends PApplet {
 
     public void makeBomberMan() {
         p1 = new BomberMan(1, 1, img);
+        p2 = new BomberMan(Constants.MAP_WIDTH - 2, Constants.MAP_HEIGHT - 2, img);
     }
 
     public void drawBomb() {
@@ -123,31 +128,47 @@ public class Main extends PApplet {
     public void explodeBomb(Bomb bomb) {
         int x = (int) bomb.getPosition().getX();
         int y = (int) bomb.getPosition().getY();
-        System.out.println(x+",  "+y);
+
+        for (int i = 0; i <= bomb.getPower(); i++) {
+            collideWithBlock(bomb, map[x - i][y]);
+            collideWithBlock(bomb, map[x + i][y]);
+            collideWithBlock(bomb, map[x][y - i]);
+            collideWithBlock(bomb, map[x][y + i]);
+
+            CollideWithPlayer(p1, x - 1, y);
+            CollideWithPlayer(p1, x + 1, y);
+            CollideWithPlayer(p1, x, y - 1);
+            CollideWithPlayer(p1, x, y + 1);
+        }
+
+
+    }
+
+    void collideWithBlock(Bomb bomb, Block block) {
         Block.Types breakable = Block.Types.BREAKABLE;
         Block.Types absence = Block.Types.ABSENCE;
+        if (block.getType() == breakable) block.setType(absence);
+    }
 
-        for(int i=1; i<=bomb.getPower(); i++){
+    void CollideWithPlayer(BomberMan player, int x, int y) {
+        int px = (int) player.getPosition().getX();
+        int py = (int) player.getPosition().getY();
 
-            if(map[x-i][y].getType() == breakable){
-                map[x-i][y].setType(absence);
-                System.out.println("없애야지");
-            }
-
-            System.out.println(map[x+i][y].getType());
-            if(map[x+i][y].getType() == breakable) {
-                map[x+i][y].setType(Block.Types.ABSENCE);
-                System.out.println("없애야지");
-                System.out.println(map[x+i][y].getType());
-            }
-            if(map[x][y-i].getType() == breakable) {
-                map[x][y-i].setType(absence);
-                System.out.println("없애야지");
-            }
-            if(map[x][y+i].getType() == breakable) {
-                map[x][y+i].setType(absence);
-                System.out.println("없애야지");
-            }
+        if (px == x && py == y) {
+            System.out.println("ㅠㅠ 죽었다..");
+            player.isDead(true);
         }
+    }
+
+    void drawPlayers() {
+        if (p1 != null && p1.isDead()) {
+            System.out.println("주거써서서서");
+
+            p1 = null;
+        }
+        if (p2 != null && p2.isDead()) p2 = null;
+        if (p1 != null) p1.draw(this);
+        if (p2 != null) p2.draw(this);
+
     }
 }

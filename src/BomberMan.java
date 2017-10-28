@@ -1,18 +1,24 @@
 import processing.core.PApplet;
 
 public class BomberMan {
-    Position position;
+    private Position position;
     Image img;
     private int state = 0;
     private int dir=0;
     private float speed = 0.05f;
     private int power = 1;
     private int numberOfBomb = 1;
+    private boolean dead = false;
 
     BomberMan(int x, int y, Image img) {
         this.position = new Position(x, y);
         this.img = img;
     }
+
+    public Position getPosition() {
+        return position;
+    }
+
 
     public float getSpeed() {
         return speed;
@@ -69,6 +75,12 @@ public class BomberMan {
         this.setState(state+1);
     }
 
+    public boolean isDead(){
+        return dead;
+    }
+    public void isDead(boolean dead){
+        this.dead = dead;
+    }
     public boolean detectCollisionWithBlock(Block[][] map) {
         int x1 = (int) (position.getX() + 0.1);
         int x2 = (int) (position.getX() + 0.6); // 사이즈 맨 밑에
