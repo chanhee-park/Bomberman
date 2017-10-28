@@ -125,15 +125,15 @@ public class Main extends PApplet {
     }
 
 
-    public void explodeBomb(Bomb bomb) {
+    private void explodeBomb(Bomb bomb) {
         int x = (int) bomb.getPosition().getX();
         int y = (int) bomb.getPosition().getY();
 
         for (int i = 0; i <= bomb.getPower(); i++) {
-            collideWithBlock(bomb, map[x - i][y]);
-            collideWithBlock(bomb, map[x + i][y]);
-            collideWithBlock(bomb, map[x][y - i]);
-            collideWithBlock(bomb, map[x][y + i]);
+            collideWithBlock(map[x - i][y]);
+            collideWithBlock(map[x + i][y]);
+            collideWithBlock(map[x][y - i]);
+            collideWithBlock(map[x][y + i]);
 
             CollideWithPlayer(p1, x - 1, y);
             CollideWithPlayer(p1, x + 1, y);
@@ -144,31 +144,30 @@ public class Main extends PApplet {
 
     }
 
-    void collideWithBlock(Bomb bomb, Block block) {
+    private void collideWithBlock(Block block) {
         Block.Types breakable = Block.Types.BREAKABLE;
         Block.Types absence = Block.Types.ABSENCE;
-        if (block.getType() == breakable) block.setType(absence);
+        if (block.getType() == breakable) {
+            block.setType(absence);
+
+        }
     }
 
-    void CollideWithPlayer(BomberMan player, int x, int y) {
+    private void CollideWithPlayer(BomberMan player, int x, int y) {
         int px = (int) player.getPosition().getX();
         int py = (int) player.getPosition().getY();
 
         if (px == x && py == y) {
-            System.out.println("ㅠㅠ 죽었다..");
             player.isDead(true);
         }
     }
 
-    void drawPlayers() {
+    private void drawPlayers() {
         if (p1 != null && p1.isDead()) {
-            System.out.println("주거써서서서");
-
             p1 = null;
         }
         if (p2 != null && p2.isDead()) p2 = null;
         if (p1 != null) p1.draw(this);
         if (p2 != null) p2.draw(this);
-
     }
 }
