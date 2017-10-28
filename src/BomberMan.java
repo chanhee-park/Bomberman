@@ -2,6 +2,7 @@ import processing.core.PApplet;
 
 public class BomberMan {
     Position position;
+    Image img = new Image();
     private float speed = 0.25f;
     private int power = 1;
     private int numberOfBomb = 1;
@@ -67,9 +68,7 @@ public class BomberMan {
     }
 
     public void draw(PApplet applet) {
-        applet.fill(200, 0, 0);
-        applet.ellipse(position.getX() * Constants.BLOCK_WIDTH + Constants.BLOCK_WIDTH / 2, position.getY() * Constants.BLOCK_HEIGHT + Constants.BLOCK_HEIGHT / 2, 40, 40);
-        // 사이즈 바꾸면 위에 충돌검사 다시
+        applet.image(img.getCharacterImg(applet)[2],position.getX()*Constants.BLOCK_WIDTH+Constants.BLOCK_WIDTH/2, position.getY()*Constants.BLOCK_HEIGHT+Constants.BLOCK_HEIGHT/2);
     }
 
 
