@@ -9,7 +9,7 @@ public class Image {
 
 
     public PImage[] getCharacterImg(PApplet applet) {
-        PImage character = applet.loadImage("/img/bomberman-movement.png");
+        PImage character = applet.loadImage("./img/bomberman-movement.png");
 
         PImage[] characterAct = new PImage[20];
 
@@ -22,14 +22,14 @@ public class Image {
     }
 
     public PImage setUnBreakableBlock(PApplet applet) {
-        PImage block = applet.loadImage("/img/bomberman-block.png");
+        PImage block = applet.loadImage("./img/bomberman-block.png");
         block = block.get(40 * 0, 40 * 3, 40, 40);
 
         return block;
     }
 
     public PImage[] setBreakableBlock(PApplet applet) {
-        PImage block = applet.loadImage("/img/bomberman-block.png");
+        PImage block = applet.loadImage("./img/bomberman-block.png");
         PImage[] blocks = new PImage[3];
 
         for(int i = 0 ; i < 3 ; i++) {

@@ -3,6 +3,8 @@ import processing.core.PApplet;
 public class BomberMan {
     Position position;
     Image img = new Image();
+    private int state = 0;
+    private int dir = 0;
     private float speed = 0.25f;
     private int power = 1;
     private int numberOfBomb = 1;
@@ -12,26 +14,33 @@ public class BomberMan {
 
     }
 
-    public void goLeft(Block[][] map) {
+    public void goLeft(Block[][] map, PApplet applet) {
         position.setX(position.getX() - speed);
         if (detectCollisionWithBlock(map)) position.setX(position.getX() + speed);
-
+        applet.image(img.getCharacterImg(applet)[15+state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        this.setState(state+1);
     }
 
-    public void goRight(Block[][] map) {
+    public void goRight(Block[][] map, PApplet applet) {
         position.setX(position.getX() + speed);
         if (detectCollisionWithBlock(map)) position.setX(position.getX() - speed);
+        applet.image(img.getCharacterImg(applet)[5+state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        this.setState(state+1);
 
     }
 
-    public void goUP(Block[][] map) {
+    public void goUP(Block[][] map, PApplet applet) {
         position.setY(position.getY() - speed);
         if (detectCollisionWithBlock(map)) position.setY(position.getY() + speed);
+        applet.image(img.getCharacterImg(applet)[10+state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        this.setState(state+1);
     }
 
-    public void goDown(Block[][] map) {
+    public void goDown(Block[][] map, PApplet applet) {
         position.setY(position.getY() + speed);
         if (detectCollisionWithBlock(map)) position.setY(position.getY() - speed);
+        applet.image(img.getCharacterImg(applet)[state],position.getX()*Constants.BLOCK_WIDTH+10, position.getY()*Constants.BLOCK_HEIGHT+3);
+        this.setState(state+1);
     }
 
     public boolean detectCollisionWithBlock(Block[][] map) {
@@ -65,6 +74,17 @@ public class BomberMan {
     public void numberOfBombUp() {
         if (numberOfBomb > 3) return;
         numberOfBomb += 1;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+        if(state > 4) {
+            this.state =0;
+        }
     }
 
     public void draw(PApplet applet) {

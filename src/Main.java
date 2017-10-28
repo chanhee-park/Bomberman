@@ -25,15 +25,17 @@ public class Main extends PApplet {
     public void draw() {
         this.background(51,102,0);
         drawMap();
-        p1.draw(this);
+        if(keyPressed) {
+            if (keyCode == RIGHT) p1.goRight(map, this);
+            else if (keyCode == LEFT) p1.goLeft(map, this);
+            else if (keyCode == DOWN) p1.goDown(map, this);
+            else if (keyCode == UP) p1.goUP(map, this);
+        } else p1.draw(this);
     }
 
     @Override
     public void keyPressed() {
-        if(keyCode==RIGHT) p1.goRight(map);
-        if(keyCode==LEFT) p1.goLeft(map);
-        if(keyCode==DOWN) p1.goDown(map);
-        if(keyCode==UP) p1.goUP(map);
+
     }
 
     @Override
