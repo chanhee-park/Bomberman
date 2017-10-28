@@ -39,7 +39,8 @@ public class Main extends PApplet {
 
     @Override
     public void keyPressed() {
-        if(keyCode == 'm') {
+        String code = String.valueOf(keyCode).toUpperCase();
+        if(code.equals('m')) {
             bombs[0] = new Bomb(p1.position, 1, img);
         }
     }
