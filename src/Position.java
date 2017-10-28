@@ -2,10 +2,6 @@ public class Position implements Cloneable {
     private float x;
     private float y;
 
-    Position() {
-
-    }
-
     Position(float x, float y) {
         this.x = x;
         this.y = y;
