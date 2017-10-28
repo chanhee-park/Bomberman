@@ -35,7 +35,6 @@ public class Main extends PApplet {
         drawMap();
         drawPlayers();
         if (keyPressed && p1 != null && p2 != null) {
-            System.out.println(keyCode);
             if (keyCode == RIGHT) p1.goRight(map);
             else if (keyCode == LEFT) p1.goLeft(map);
             else if (keyCode == DOWN) p1.goDown(map);
@@ -62,9 +61,11 @@ public class Main extends PApplet {
             int x = (int) item.getPosition().getX();
             int y = (int) item.getPosition().getY();
             if (p1x == x && p1y == y) {
-                System.out.println("ㅇㅁㄹㅇㄹㄴ");
                 p1.getItem(item);
                 items.remove(item);
+                System.out.println("num : " + p1.getNumberOfBomb());
+                System.out.println("pow : " + p1.getPower());
+                System.out.println("spe : " + p1.getSpeed());
                 break;
             } else if (p2x == x && p2y == y) {
                 p2.getItem(item);
@@ -80,14 +81,14 @@ public class Main extends PApplet {
         if (keyCode == 77) { // m
             for (int i = 0; i < p1.getNumberOfBomb(); i++) {
                 if (bombs[i] == null) {
-                    bombs[0] = new Bomb(p1.getPosition().clone(), p1.getPower(), img);
+                    bombs[i] = new Bomb(p1.getPosition().clone(), p1.getPower(), img);
                 }
             }
         }
         if (keyCode == 86) { // v
             for (int i = 3; i < 3 + p1.getNumberOfBomb(); i++) {
                 if (bombs[i] == null) {
-                    bombs[0] = new Bomb(p2.getPosition().clone(), p2.getPower(), img);
+                    bombs[i] = new Bomb(p2.getPosition().clone(), p2.getPower(), img);
                 }
             }
         }
@@ -169,7 +170,7 @@ public class Main extends PApplet {
             int state = collideWithBlock(map[x - i][y]);
             if (state == 1) {
                 break;
-            } else if (state == 2){
+            } else if (state == 2) {
                 image(img.explosion[9 * (4 - i) + 2], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
                 break;
             }
@@ -179,27 +180,27 @@ public class Main extends PApplet {
             int state = collideWithBlock(map[x + i][y]);
             if (state == 1) {
                 break;
-            } else if (state == 2){
+            } else if (state == 2) {
                 image(img.explosion[9 * (4 - i) + 2], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
                 break;
             }
             image(img.explosion[9 * (4 - i) + 1], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
         }
         for (int i = 0; i <= bomb.getPower(); i++) {
-            int state = collideWithBlock(map[x][y+i]);
+            int state = collideWithBlock(map[x][y + i]);
             if (state == 1) {
                 break;
-            } else if (state == 2){
+            } else if (state == 2) {
                 image(img.explosion[9 * (4 - i) + 2], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
                 break;
             }
             image(img.explosion[9 * (4 - i) + 1], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
         }
         for (int i = 0; i <= bomb.getPower(); i++) {
-            int state = collideWithBlock(map[x][y-i]);
+            int state = collideWithBlock(map[x][y - i]);
             if (state == 1) {
                 break;
-            } else if (state == 2){
+            } else if (state == 2) {
                 image(img.explosion[9 * (4 - i) + 2], (x - i) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
                 break;
             }
@@ -216,11 +217,11 @@ public class Main extends PApplet {
             if (randomNumber < 0.4) {
                 //nothing to do
             } else if (randomNumber < 0.6) {
-                items.add(new Item(position, Item.Types.SPEED));
+                items.add(new Item(position, Item.Types.SPEED, img));
             } else if (randomNumber < 0.8) {
-                items.add(new Item(position, Item.Types.POWER));
+                items.add(new Item(position, Item.Types.POWER, img));
             } else {
-                items.add(new Item(position, Item.Types.NUMBER));
+                items.add(new Item(position, Item.Types.NUMBER, img));
             }
             block.setType(Block.Types.ABSENCE);
             return Constants.BREAKABLE;
