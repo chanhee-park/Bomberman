@@ -1,10 +1,14 @@
 import processing.core.PApplet;
 
+import java.util.ArrayList;
+
 public class Main extends PApplet {
     Block[][] map = new Block[Constants.MAP_WIDTH][Constants.MAP_HEIGHT];
     Image img;
     BomberMan p1, p2;
     Bomb[] bombs = new Bomb[6];
+    ArrayList<Item> items = new ArrayList<Item>();
+
 
     public static void main(String[] args) {
         PApplet.main("Main");
@@ -41,14 +45,38 @@ public class Main extends PApplet {
             else if (keyCode == 65) p2.goLeft(map);
             else if (keyCode == 83) p2.goDown(map);
             else if (keyCode == 87) p2.goUP(map);
+
+            detectCollisionPlayerAndItem();
         }
 
         drawBomb();
+        drawItem();
     }
+
+    private void detectCollisionPlayerAndItem() {
+        for (Item item : items) {
+            int p1x = (int) p1.getPosition().getX();
+            int p1y = (int) p1.getPosition().getY();
+            int p2x = (int) p1.getPosition().getX();
+            int p2y = (int) p1.getPosition().getY();
+            int x = (int) item.getPosition().getX();
+            int y = (int) item.getPosition().getY();
+            if (p1x == x && p1y == y) {
+                System.out.println("ㅇㅁㄹㅇㄹㄴ");
+                p1.getItem(item);
+                items.remove(item);
+                break;
+            } else if (p2x == x && p2y == y) {
+                p2.getItem(item);
+                items.remove(item);
+                break;
+            }
+        }
+    }
+
 
     @Override
     public void keyPressed() {
-        System.out.println(keyCode);
         if (keyCode == 77) { // m
             for (int i = 0; i < p1.getNumberOfBomb(); i++) {
                 if (bombs[i] == null) {
@@ -131,8 +159,7 @@ public class Main extends PApplet {
         int power = bomb.getPower();
 
 
-
-        for(int i = 0 ; i <= power ; i++) {
+        for (int i = 0; i <= power; i++) {
             CollideWithPlayer(p1, x - i, y);
             CollideWithPlayer(p1, x + i, y);
             CollideWithPlayer(p1, x, y - i);
@@ -142,59 +169,66 @@ public class Main extends PApplet {
         for (int i = 0; i < 4; i++) {
             image(img.explosion[9 * (4 - i)], x * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT); // 가운데
 
-            for (int j = 1 ; j < power + 1 ; j++) { // 왼
+            for (int j = 1; j < power + 1; j++) { // 왼
                 if (collideWithBlock(map[x - j][y]) == 1) {
                     break;
                 } else if (collideWithBlock(map[x - j][y]) == 2) {
                     image(img.explosion[9 * (4 - i) + 2], (x - j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
                     break;
                 }
-                image(img.explosion[9 * (4 - i) + 1],(x - j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+                image(img.explosion[9 * (4 - i) + 1], (x - j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
             }
 
-            for (int j = 1 ; j < power + 1; j++) { // 오
+            for (int j = 1; j < power + 1; j++) { // 오
                 if (collideWithBlock(map[x + j][y]) == 1) {
                     break;
                 } else if (collideWithBlock(map[x + j][y]) == 2) {
                     image(img.explosion[9 * (4 - i) + 4], (x + j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
                     break;
                 }
-                image(img.explosion[9 * (4 - i) + 3],(x + j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
+                image(img.explosion[9 * (4 - i) + 3], (x + j) * Constants.BLOCK_WIDTH, y * Constants.BLOCK_HEIGHT);
             }
 
-            for (int j = 1 ; j < power + 1 ; j++) {  // 위
-                if(collideWithBlock(map[x][y - j]) == 1) {
+            for (int j = 1; j < power + 1; j++) {  // 위
+                if (collideWithBlock(map[x][y - j]) == 1) {
                     break;
                 } else if (collideWithBlock(map[x][y - j]) == 2) {
                     image(img.explosion[9 * (4 - i) + 8], x * Constants.BLOCK_WIDTH, (y - j) * Constants.BLOCK_HEIGHT);
                     break;
                 }
-                image(img.explosion[9 * (4 - i) + 7],x * Constants.BLOCK_WIDTH, (y - j) * Constants.BLOCK_HEIGHT);
+                image(img.explosion[9 * (4 - i) + 7], x * Constants.BLOCK_WIDTH, (y - j) * Constants.BLOCK_HEIGHT);
             }
 
-            for (int j = 1 ; j < power + 1; j++) {  // 아래
-                if(collideWithBlock(map[x][y + j]) == 1) {
+            for (int j = 1; j < power + 1; j++) {  // 아래
+                if (collideWithBlock(map[x][y + j]) == 1) {
                     break;
                 } else if (collideWithBlock(map[x][y + j]) == 2) {
                     image(img.explosion[9 * (4 - i) + 6], x * Constants.BLOCK_WIDTH, (y + j) * Constants.BLOCK_HEIGHT);
                     break;
                 }
-                image(img.explosion[9 * (4 - i) + 5],x * Constants.BLOCK_WIDTH, (y + j) * Constants.BLOCK_HEIGHT);
+                image(img.explosion[9 * (4 - i) + 5], x * Constants.BLOCK_WIDTH, (y + j) * Constants.BLOCK_HEIGHT);
             }
-
-
 
         }
 
     }
 
     private int collideWithBlock(Block block) {
-        Block.Types breakable = Block.Types.BREAKABLE;
-        Block.Types absence = Block.Types.ABSENCE;
-        if (block.getType() == breakable) {
-            block.setType(absence);
+        if (block.getType() == Block.Types.BREAKABLE) {
+            float randomNumber = (float) Math.random();
+            Position position = block.getPosition().clone();
+            if (randomNumber < 0.4) {
+                //nothing to do
+            } else if (randomNumber < 0.6) {
+                items.add(new Item(position, Item.Types.SPEED));
+            } else if (randomNumber < 0.8) {
+                items.add(new Item(position, Item.Types.POWER));
+            } else {
+                items.add(new Item(position, Item.Types.NUMBER));
+            }
+            block.setType(Block.Types.ABSENCE);
             return Constants.BREAKABLE;
-        } else if(block.getType() == Block.Types.UNBREAKABLE){
+        } else if (block.getType() == Block.Types.UNBREAKABLE) {
             return Constants.UNBREAKABLE;
         }
         return Constants.ABSENCE;
@@ -203,8 +237,6 @@ public class Main extends PApplet {
     private void CollideWithPlayer(BomberMan player, int x, int y) {
         int px = (int) player.getPosition().getX();
         int py = (int) player.getPosition().getY();
-        System.out.println(px+", "+py);
-        System.out.println(x+", "+y);
 
         if (px == x && py == y) {
             player.isDead(true);
@@ -218,5 +250,11 @@ public class Main extends PApplet {
         if (p2 != null && p2.isDead()) p2 = null;
         if (p1 != null) p1.draw(this);
         if (p2 != null) p2.draw(this);
+    }
+
+    private void drawItem() {
+        for (Item item : items) {
+            item.draw(this);
+        }
     }
 }
